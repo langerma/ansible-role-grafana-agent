@@ -1,0 +1,7 @@
+---
+
+- name: test if agent_version is defined
+  ansible.builtin.assert:
+    that:
+      - nomad_server is defined
+    quiet: yes
