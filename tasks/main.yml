@@ -6,10 +6,8 @@
   run_once: yes
   delegate_to: localhost
 
-- name: create /etc/nomad.d
-  ansible.builtin.file:
-    path: /etc/nomad
-    state: directory
-    mode: "0750"
-    owner: nomad
-    group: nomad
+- name: download foo.conf
+  get_url:
+    url: {{ agent_url }}
+    dest: /tmp/grafana-agent.deb
+    mode: 0644
