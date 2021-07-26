@@ -1,0 +1,15 @@
+---
+# tasks file for grafana-agent
+
+- name: import assert.yml
+  import_tasks: assert.yml
+  run_once: yes
+  delegate_to: localhost
+
+- name: create /etc/nomad.d
+  ansible.builtin.file:
+    path: /etc/nomad
+    state: directory
+    mode: "0750"
+    owner: nomad
+    group: nomad
