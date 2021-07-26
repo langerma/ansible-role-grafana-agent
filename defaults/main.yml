@@ -12,6 +12,8 @@ agent_config:
   prometheus:
     global:
       scrape_interval: 15s
+      remote_write:
+        - url: http://cortex.service.consul:9009/api/v1/push
     wal_directory: '/var/lib/grafana-agent'
     configs:
     - name: agent
@@ -28,3 +30,5 @@ agent_config:
       include_exporter_metrics: true
       disable_collectors:
         - "mdadm"
+    consul_exporter:
+      enabled: true

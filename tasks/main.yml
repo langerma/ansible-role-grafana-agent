@@ -19,7 +19,9 @@
 - name: Configure grafana-agent
   ansible.builtin.template:
     src: grafana-agent.yaml.j2
-    dest: /etc/rafana-agent.yaml
+    dest: /etc/grafana-agent.yaml
     owner: root
     group: grafana-agent
     mode: '0644'
+  notify:
+    - restart grafana-agent
