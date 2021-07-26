@@ -6,8 +6,12 @@
   run_once: yes
   delegate_to: localhost
 
-- name: download foo.conf
-  get_url:
-    url: {{ agent_url }}
-    dest: /tmp/grafana-agent.deb
-    mode: 0644
+#- name: download foo.conf
+#  get_url:
+#    url: {{ agent_url }}
+#    dest: /tmp/grafana-agent.deb
+#    mode: 0644
+
+- name: Install grafana-agent .deb package from the internet
+  apt:
+    deb: {{ agent_url}}
