@@ -1,0 +1,40 @@
+---
+galaxy_info:
+  author: Markus Langer
+  role_name: grafana_agent
+  description: Install and configure grafana-agent.
+  license: BSD 3-Clause License
+  company: remerge.io
+  min_ansible_version: "2.10"
+
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+
+  galaxy_tags:
+    - grafana-agent
+    - prometheus
+    - loki
+    - tempo
+    - promtail
+    - server
+    - agent
+    - consul_exporter
+    - dnsmasq_exporter
+    - elasticsearch_exporter
+    - kafka_exporter
+    - memcached_exporter
+    - mysqld_exporter
+    - node_exporter
+    - postgres_exporter
+    - process_exporter
+    - redis_exporter
+    - statsd_exporter
+    - windows_exporter
+
+dependencies: []
