@@ -17,6 +17,8 @@ This example is taken from `molecule/resources/converge.yml` and is tested on ea
 
 ## [Role Variables](#role-variables)
 
+for agent configuration have a look at [Grafana Agent Documentation](https://github.com/grafana/agent/blob/main/docs/configuration/_index.md)
+
 These variables are set in `defaults/main.yml`:
 ```yaml
 ---
