@@ -14,7 +14,7 @@
 
 - name: Install grafana-agent .rpm package from the internet
   yum:
-    deb: "{{ agent_url }}.rpm"
+    name: "{{ agent_url }}.rpm"
   when:
     - ansible_os_family == "RedHat"
 
