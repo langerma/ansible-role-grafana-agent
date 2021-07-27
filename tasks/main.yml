@@ -6,15 +6,17 @@
   run_once: yes
   delegate_to: localhost
 
-#- name: download foo.conf
-#  get_url:
-#    url: {{ agent_url }}
-#    dest: /tmp/grafana-agent.deb
-#    mode: 0644
-
 - name: Install grafana-agent .deb package from the internet
   apt:
-    deb: "{{ agent_url }}"
+    deb: "{{ agent_url }}.deb"
+  when:
+    - ansible_os_family == "Debian"
+
+- name: Install grafana-agent .rpm package from the internet
+  yum:
+    deb: "{{ agent_url }}.rpm"
+  when:
+    - ansible_os_family == "RedHat"
 
 - name: Configure grafana-agent
   ansible.builtin.template:
