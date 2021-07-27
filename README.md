@@ -53,6 +53,8 @@ agent_config:
     node_exporter:
       enabled: true
       include_exporter_metrics: true
+      enable_collectors:
+        - "systemd"
       disable_collectors:
         - "mdadm"
     consul_exporter:
