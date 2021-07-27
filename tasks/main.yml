@@ -15,6 +15,7 @@
 - name: Install grafana-agent .rpm package from the internet
   yum:
     name: "{{ agent_url }}.rpm"
+    disable_gpg_check: yes
   when:
     - ansible_os_family == "RedHat"
 
