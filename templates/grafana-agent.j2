@@ -1,0 +1,70 @@
+#!/bin/sh
+
+# PROVIDE: grafana_agent
+# REQUIRE: DAEMON NETWORKING
+# BEFORE: LOGIN
+# KEYWORD: shutdown
+
+# Add the following lines to /etc/rc.conf to enable grafana_agentb:
+# grafana_agent_enable="YES"
+#
+# grafana_agent_enable (bool):       Set to YES to enable grafana_agent
+#                               Default: NO
+# grafana_agent_conf (str):          grafana_agent configuration file
+#                               Default: /usr/local/etc/${name}.yaml
+# grafana_agent_user (str):          grafana_agent daemon user
+#                               Default: root
+# grafana_agent_group (str):         grafana_agent daemon group
+#                               Default: wheel
+# grafana_agent_flags (str):         Extra flags passed to grafana_agent
+#                               Default: --log.level info
+
+. /etc/rc.subr
+
+PATH=${PATH}:/usr/local/sbin:/usr/local/bin
+
+name="grafana_agent"
+rcvar=grafana_agent_enable
+load_rc_config $name
+
+# {{ ansible_managed }}
+
+: ${grafana_agent_enable:="NO"}
+: ${grafana_agent_user:="root"}
+: ${grafana_agent_group:="wheel"}
+: ${grafana_agent_conf:="/usr/local/etc/${name}.yaml"}
+: ${grafana_agent_flags}:="--log.level info"
+: ${grafana_agent_options:="--config.file ${grafana_agent_conf} ${grafana_agent_flags}"}
+
+logfile="/var/log/grafana_agent/${name}.log"
+pidfile="/var/run/${name}.pid"
+command=/usr/sbin/daemon
+start_precmd="grafana_agent_prestart"
+start_cmd="grafana_agent_start"
+stop_cmd="grafana_agent_stop"
+
+grafana_agent_prestart()
+{
+    install -d -o ${grafana_agent_user} -g ${grafana_agent_group} -m750 /var/log/grafana_agent
+}
+
+grafana_agent_start()
+{
+    echo "Starting ${name}"
+    /usr/sbin/daemon -fcr -P ${pidfile} -u ${grafana_agent_user} -o ${logfile} \
+        /usr/local/bin/agent-freebsd-amd64 ${grafana_agent_options}
+}
+
+grafana_agent_stop()
+{
+    pid=$(check_pidfile $pidfile $command)
+    if [ -n "${pid}" ]; then
+        echo "Stopping ${name} (pid=${pid})"
+        kill -- -${pid}
+        wait_for_pids ${pid}
+    else
+        echo "${name} isn't running"
+    fi
+}
+
+run_rc_command "$1"

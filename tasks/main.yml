@@ -6,34 +6,27 @@
   run_once: yes
   delegate_to: localhost
 
-- name: Install grafana-agent .deb package from the internet
-  apt:
-    deb: "{{ agent_url }}.deb"
-  when:
-    - ansible_os_family == "Debian"
-
-- name: Install grafana-agent .rpm package from the internet
-  yum:
-    name: "{{ agent_url }}.rpm"
-    disable_gpg_check: yes
+- name: Install on RedHat
+  include_tasks: "RedHat.yml"
   when:
     - ansible_os_family == "RedHat"
 
-- name: unpack grafana-agent to /usr/local/bin
-  ansible.builtin.unarchive:
-    src: https://github.com/grafana/agent/releases/download/v{{ agent_version }}/agent-freebsd-amd64.zip
-    dest: /usr/local/bin
-    mode: '0755'
-    remote_src: yes
+- name: Install on Debian
+  include_tasks: "Debian.yml"
+  when:
+    - ansible_os_family == "Debian"
+
+- name: Install on FreeBSD
+  include_tasks: "FreeBSD.yml"
   when:
     - ansible_os_family == "FreeBSD"
 
-- name: Configure grafana-agent
-  ansible.builtin.template:
-    src: grafana-agent.yaml.j2
-    dest: /etc/grafana-agent.yaml
-    owner: root
-    group: grafana-agent
-    mode: '0644'
-  notify:
-    - restart grafana-agent
+- name: Configure grafana-agent on RedHat or Debian based systems
+  include_tasks: "configure_linux.yml"
+  when:
+    - ansible_os_family == "RedHat" or ansible_os_family == "Debian"
+
+- name: Configure grafana-agent on FreeBSD based systems
+  include_tasks: "configure_FreeBSD.yml"
+  when:
+    - ansible_os_family == "FreeBSD"
