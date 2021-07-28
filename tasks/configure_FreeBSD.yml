@@ -1,0 +1,10 @@
+---
+- name: Configure grafana-agent
+  ansible.builtin.template:
+    src: grafana-agent.yaml.j2
+    dest: /usr/local/etc/grafana-agent.yaml
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - restart grafana-agent
