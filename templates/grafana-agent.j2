@@ -11,7 +11,7 @@
 # grafana_agent_enable (bool):       Set to YES to enable grafana_agent
 #                               Default: NO
 # grafana_agent_conf (str):          grafana_agent configuration file
-#                               Default: /usr/local/etc/${name}.conf
+#                               Default: /usr/local/etc/${name}.yaml
 # grafana_agent_user (str):          grafana_agent daemon user
 #                               Default: root
 # grafana_agent_group (str):         grafana_agent daemon group
@@ -32,7 +32,7 @@ load_rc_config $name
 : ${grafana_agent_enable:="NO"}
 : ${grafana_agent_user:="root"}
 : ${grafana_agent_group:="wheel"}
-: ${grafana_agent_conf:="/usr/local/etc/grafana-agent.yaml"}
+: ${grafana_agent_conf:="/usr/local/etc/${name}.yaml"}
 : ${grafana_agent_flags}:="--log.level info"
 : ${grafana_agent_options:="--config.file ${grafana_agent_conf} ${grafana_agent_flags}"}
 

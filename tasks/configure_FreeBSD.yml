@@ -11,7 +11,7 @@
 - name: Configure grafana_agent
   ansible.builtin.template:
     src: grafana-agent.yaml.j2
-    dest: /usr/local/etc/grafana-agent.yaml
+    dest: /usr/local/etc/grafana_agent.yaml
     owner: root
     group: wheel
     mode: '0644'
