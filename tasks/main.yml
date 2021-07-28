@@ -19,6 +19,15 @@
   when:
     - ansible_os_family == "RedHat"
 
+- name: unpack grafana-agent to /usr/local/bin
+  ansible.builtin.unarchive:
+    src: https://github.com/grafana/agent/releases/download/v{{ agent_version }}/agent-freebsd-amd64.zip
+    dest: /usr/local/bin
+    mode: '0755'
+    remote_src: yes
+  when:
+    - ansible_os_family == "FreeBSD"
+
 - name: Configure grafana-agent
   ansible.builtin.template:
     src: grafana-agent.yaml.j2
