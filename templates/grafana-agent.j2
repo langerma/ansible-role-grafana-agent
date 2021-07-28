@@ -6,56 +6,56 @@
 # KEYWORD: shutdown
 
 # Add the following lines to /etc/rc.conf to enable grafana-agentb:
-# grafana-agent_enable="YES"
+# grafana_agent_enable="YES"
 #
-# grafana-agent_enable (bool):       Set to YES to enable grafana-agent
+# grafana_agent_enable (bool):       Set to YES to enable grafana-agent
 #                               Default: NO
-# grafana-agent_conf (str):          grafana-agent configuration file
+# grafana_agent_conf (str):          grafana_agent configuration file
 #                               Default: /usr/local/etc/${name}.conf
-# grafana-agent_user (str):          grafana-agent daemon user
-#                               Default: grafana-agent
-# grafana-agent_group (str):         grafana-agent daemon group
-#                               Default: grafana-agent
-# grafana-agent_flags (str):         Extra flags passed to grafana-agent
-#                               Default: empty
+# grafana_agent_user (str):          grafana_agent daemon user
+#                               Default: root
+# grafana_agent_group (str):         grafana_agent daemon group
+#                               Default: wheel
+# grafana_agent_flags (str):         Extra flags passed to grafana-agent
+#                               Default: --log.level info
 
 . /etc/rc.subr
 
 PATH=${PATH}:/usr/local/sbin:/usr/local/bin
 
 name="grafana-agent"
-rcvar=grafana-agent_enable
+rcvar=grafana_agent_enable
 load_rc_config $name
 
 # {{ ansible_managed }}
 
-: ${grafana-agent_enable:="NO"}
-: ${grafana-agent_user:="root"}
-: ${grafana-agent_group:="wheel"}
-: ${grafana-agent_conf:="/usr/local/etc/${name}.conf"}
-: ${grafana-agent_flags}:="--log.level info"
-: ${grafana-agent_options:="--config.file ${grafana-agent_conf} ${grafana-agent_flags}"}
+: ${grafana_agent_enable:="NO"}
+: ${grafana_agent_user:="root"}
+: ${grafana_agent_group:="wheel"}
+: ${grafana_agent_conf:="/usr/local/etc/${name}.conf"}
+: ${grafana_agent_flags}:="--log.level info"
+: ${grafana_agent_options:="--config.file ${grafana-agent_conf} ${grafana-agent_flags}"}
 
 logfile="/var/log/grafana-agent/${name}.log"
 pidfile="/var/run/${name}.pid"
 command=/usr/sbin/daemon
-start_precmd="grafana-agent_prestart"
-start_cmd="grafana-agent_start"
-stop_cmd="grafana-agent_stop"
+start_precmd="grafana_agent_prestart"
+start_cmd="grafana_agent_start"
+stop_cmd="grafana_agent_stop"
 
-grafana-agent_prestart()
+grafana_agent_prestart()
 {
-    install -d -o ${grafana-agent_user} -g ${grafana-agent_group} -m750 /var/log/grafana-agent
+    install -d -o ${grafana_agent_user} -g ${grafana_agent_group} -m750 /var/log/grafana-agent
 }
 
-grafana-agent_start()
+grafana_agent_start()
 {
     echo "Starting ${name}"
-    /usr/sbin/daemon -fcr -P ${pidfile} -u ${grafana-agent_user} -o ${logfile} \
-        /usr/local/bin/agent-freebsd-amd64 ${grafana-agent_options}
+    /usr/sbin/daemon -fcr -P ${pidfile} -u ${grafana_agent_user} -o ${logfile} \
+        /usr/local/bin/agent-freebsd-amd64 ${grafana_agent_options}
 }
 
-grafana-agent_stop()
+grafana_agent_stop()
 {
     pid=$(check_pidfile $pidfile $command)
     if [ -n "${pid}" ]; then
