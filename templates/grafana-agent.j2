@@ -32,7 +32,7 @@ load_rc_config $name
 : ${grafana_agent_enable:="NO"}
 : ${grafana_agent_user:="root"}
 : ${grafana_agent_group:="wheel"}
-: ${grafana_agent_conf:="/usr/local/etc/grafana-agent.conf"}
+: ${grafana_agent_conf:="/usr/local/etc/grafana-agent.yaml"}
 : ${grafana_agent_flags}:="--log.level info"
 : ${grafana_agent_options:="--config.file ${grafana_agent_conf} ${grafana_agent_flags}"}
 
