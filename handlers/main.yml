@@ -7,3 +7,10 @@
     state: restarted
   when:
     - not ansible_check_mode | bool
+
+- name: restart grafana_agent
+  ansible.builtin.service:
+    name: grafana_agent
+    state: restarted
+  when:
+    - not ansible_check_mode | bool

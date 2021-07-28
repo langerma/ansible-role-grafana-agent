@@ -1,14 +1,14 @@
 ---
 
-- name: Configure grafana-agent
+- name: add grafana_agent rc file
   ansible.builtin.template:
     src: grafana-agent.j2
-    dest: /usr/local/etc/rc.d/grafana-agent
+    dest: /usr/local/etc/rc.d/grafana_agent
     owner: root
     group: wheel
     mode: '0755'
 
-- name: Configure grafana-agent
+- name: Configure grafana_agent
   ansible.builtin.template:
     src: grafana-agent.yaml.j2
     dest: /usr/local/etc/grafana-agent.yaml
@@ -16,4 +16,9 @@
     group: wheel
     mode: '0644'
   notify:
-    - restart grafana-agent
+    - restart grafana_agent
+
+- name: Enable grafana_agent
+  service:
+    name: grafana_agent
+    enabled: yes
