@@ -1,5 +1,5 @@
 # ansible-role-grafana-agent
-Install and Configure Grafana-Agent with Ansible
+Install and Configure [Grafana-Agent](https://github.com/grafana/agent) with Ansible
 
 ## [Example Playbook](#example-playbook)
 
