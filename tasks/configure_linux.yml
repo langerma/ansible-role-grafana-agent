@@ -1,4 +1,15 @@
 ---
+
+- name: adding 'grafana-agent' to group root
+  user:
+    name: 'grafana-agent'
+    groups: root
+    append: yes
+  when:
+    agent_addgrouproot | bool
+  notify:
+    - restart grafana-agent
+
 - name: Configure grafana-agent
   ansible.builtin.template:
     src: grafana-agent.yaml.j2

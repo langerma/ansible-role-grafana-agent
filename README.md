@@ -27,6 +27,7 @@ These variables are set in `defaults/main.yml`:
 agent_version: "0.17.0"
 agent_arch: amd64
 agent_url: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-{{ agent_version }}-1.{{ agent_arch }}.deb"
+agent_addgrouproot: false
 
 agent_config:
   server:
@@ -59,6 +60,28 @@ agent_config:
         - "mdadm"
     consul_exporter:
       enabled: true
+  loki:
+    configs:
+    - name: default
+      positions:
+        filename: /tmp/positions.yaml
+      scrape_configs:
+        - job_name: varlogs
+          static_configs:
+            - targets: [localhost]
+              labels:
+                job: varlogs
+                __path__: /var/log/*log
+        - job_name: journal
+          journal:
+            max_age: 12h
+            labels:
+              job: systemd-journal
+          relabel_configs:
+            - source_labels: ['__journal__systemd_unit']
+              target_label: 'unit'
+      clients:
+        - url: http://loki.service.consul:3100/loki/api/v1/push
 ```
 
 ## [Compatibility](#compatibility)
