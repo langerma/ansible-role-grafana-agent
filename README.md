@@ -27,7 +27,7 @@ These variables are set in `defaults/main.yml`:
 agent_version: "0.17.0"
 agent_arch: amd64
 agent_url: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-{{ agent_version }}-1.{{ agent_arch }}.deb"
-agent_addgrouproot: false
+agent_runasroot: false
 
 agent_config:
   server:
