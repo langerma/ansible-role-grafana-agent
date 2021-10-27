@@ -24,7 +24,7 @@ These variables are set in `defaults/main.yml`:
 ---
 # defaults for grafana-agent
 
-agent_version: "0.18.4"
+agent_version: "0.19.0"
 agent_arch: amd64
 agent_url: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-{{ agent_version }}-1.{{ agent_arch }}.deb"
 agent_runasroot: false
@@ -35,7 +35,7 @@ agent_config:
     http_listen_port: 9099
     grpc_listen_address: '127.0.0.1'
     grpc_listen_port: 19095
-  prometheus:
+  metrics:
     global:
       scrape_interval: 15s
       remote_write:
@@ -60,7 +60,7 @@ agent_config:
         - "mdadm"
     consul_exporter:
       enabled: true
-  loki:
+  logs:
     configs:
     - name: default
       positions:
